@@ -82,7 +82,7 @@ void loop() {
 
 
 ## Code execute2
-
+'''
 int pin = 8;
 unsigned long duration;
 unsigned long starttime;
@@ -141,7 +141,7 @@ void loop()
         starttime = millis();
     }
 }
-
+'''
 ## Execution Results
 
 https://github.com/user-attachments/assets/70a55cd8-dd0c-42a2-abb7-f2050644d590
