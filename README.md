@@ -26,7 +26,7 @@ newgrp dialout
 arduino (→ Practice)
 
 ## Code execute 1
-
+```
 #include <SoftwareSerial.h>
  
 SoftwareSerial mySerial(13, 11);
@@ -79,10 +79,10 @@ void loop() {
   }
   delay(1000);
 } 
-
+```
 
 ## Code execute2
-'''
+```
 int pin = 8;
 unsigned long duration;
 unsigned long starttime;
@@ -141,10 +141,144 @@ void loop()
         starttime = millis();
     }
 }
-'''
-## Execution Results
+```
+## Execution Results Videos
 
 https://github.com/user-attachments/assets/70a55cd8-dd0c-42a2-abb7-f2050644d590
+
+## Reference : Create a chatbot using function calling
+
+```
+import gradio as gr
+import random
+import os
+from openai import OpenAI
+import pandas as pd
+from urllib.request import urlopen
+
+# OpenAI Key 설정
+os.environ['OPENAI_API_KEY'] = 
+OpenAI.api_key = os.getenv("OPENAI_API_KEY")
+
+# API 데이터 가져오기
+url = 'https://apihub.kma.go.kr/api/typ01/url/kma_pm10.php?tm1=202412112020&tm2=202412122020&authKey=8diTRQm4TEKYk0UJuOxCsg'
+with urlopen(url) as f:
+    html = f.read().decode('euc-kr')
+
+lines = html.split('\n')
+filtered_lines = [line for line in lines if ',   132,' in line]
+
+columns = ["TM", "STN", "PM10", "FLAG", " ", "MQC"]
+data = []
+for line in filtered_lines:
+    values = line.split(',')
+    data.append([value.strip() for value in values])
+
+df = pd.DataFrame(data, columns=columns[:len(data[0])])
+df.drop(['STN', 'FLAG', ' ', 'MQC'], axis=1, inplace=True)
+last_API_value = float(df['PM10'].iloc[-1])
+
+# 젯슨 나노 센서 데이터 가져오기
+df_dust = pd.read_csv('dust_sensor_data.csv')
+last_sensor_value = float(df_dust['Dust Concentration (ug/m3)'].iloc[-1])
+
+# OpenAI function 정의
+def get_last_sensor_value():
+    """젯슨 나노 센서의 최신 값 반환"""
+    return {"last_sensor_value": last_sensor_value}
+
+def get_last_api_value():
+    """API의 최신 PM10 값 반환"""
+    return {"last_api_value": last_API_value}
+
+functions = [
+    {
+        "name": "get_last_sensor_value",
+        "description": "젯슨 나노 센서의 최근 먼지 농도 값을 반환",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "get_last_api_value",
+        "description": "API의 최근 PM10 값을 반환",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    }
+]
+
+def process(user_message, chat_history):
+    # 특정 질문에 대한 직접 처리 로직
+    if "대전 날씨" in user_message:
+        if last_sensor_value > last_API_value:
+            ai_message = (f"현재 젯슨 나노 측정 값({last_sensor_value} ug/m3)가 "
+                          f"API PM10 값({last_API_value} ug/m3)보다 높습니다. 환기를 시키세요.")
+        else:
+            ai_message = (f"현재 젯슨 나노 측정 값({last_sensor_value} ug/m3)가 "
+                          f"API PM10 값({last_API_value} ug/m3)보다 낮거나 같습니다. 공기청정기를 사용하세요.")
+        chat_history.append((user_message, ai_message))
+        return "", chat_history
+
+    # 위 조건에 해당하지 않으면 OpenAI function calling 사용
+    client = OpenAI()
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": user_message}
+        ],
+        functions=functions,
+        function_call="auto"
+    )
+
+    response = completion.choices[0].message
+
+    # function calling 응답 처리
+    if "function_call" in response:
+        func_name = response["function_call"]["name"]
+        if func_name == "get_last_sensor_value":
+            func_result = get_last_sensor_value()
+        elif func_name == "get_last_api_value":
+            func_result = get_last_api_value()
+        else:
+            func_result = {}
+
+        # function 호출 결과를 다시 모델에 전달하여 최종 답변 생성
+        completion = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_message},
+                {"role": "function", "name": func_name, "content": str(func_result)}
+            ]
+        )
+        ai_message = completion.choices[0].message.content
+    else:
+        # 일반 답변
+        ai_message = response["content"]
+
+    chat_history.append((user_message, ai_message))
+    return "", chat_history
+
+with gr.Blocks() as demo:
+    chatbot = gr.Chatbot(label="채팅창")
+    user_textbox = gr.Textbox(label="입력")
+    user_textbox.submit(process, [user_textbox, chatbot], [user_textbox, chatbot])
+
+demo.launch(share=True, debug=True)
+```
+
+## Function Calling execute video
+https://github.com/user-attachments/assets/564c2f67-d021-4a3e-b1c4-44a54eac2719
+
+
+
+
 
 
 
