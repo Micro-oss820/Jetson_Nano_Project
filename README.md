@@ -29,6 +29,19 @@ newgrp dialout
 
 arduino (→ Practice)
 
+## Arduino code execute
+
+### 1. Enter the code below 
+
+### 2. Press the button ![image](https://github.com/user-attachments/assets/0c1998a9-db98-4fa6-8f3a-ed514e293162)
+
+### 3. Press the button ![image](https://github.com/user-attachments/assets/e8a8095e-f878-45d6-8650-89d3edad0856)
+
+
+
+##
+
+
 ## CO2 Sensor execute code 
 ```
 #include <SoftwareSerial.h>
