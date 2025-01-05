@@ -25,7 +25,7 @@ newgrp dialout
 
 arduino (→ Practice)
 
-## Code execute 1
+## CO2 SENSOR execute code 
 ```
 #include <SoftwareSerial.h>
  
@@ -81,7 +81,7 @@ void loop() {
 } 
 ```
 
-## Code execute2
+## Dust sensor execute code 
 ```
 int pin = 8;
 unsigned long duration;
