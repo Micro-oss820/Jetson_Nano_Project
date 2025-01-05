@@ -6,6 +6,8 @@
 ![KakaoTalk_20241219_195505659_01](https://github.com/user-attachments/assets/f330eeec-3e65-4dcf-930a-e8337a67c4da)
 ### 2. Arduino, Sensor : CM1106, Grove dust sensor
 ![KakaoTalk_20241219_195505659](https://github.com/user-attachments/assets/74ef87ed-2d30-49b3-8ba1-9fe869cce487)
+### 3. Arduino-cm1106 connection
+![스크린샷 2025-01-05 235814](https://github.com/user-attachments/assets/df1ce120-caa3-4e01-b64a-8f89d7f33d0d)
 
 ## Install Arduino
 
