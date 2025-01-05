@@ -8,6 +8,8 @@
 ![KakaoTalk_20241219_195505659](https://github.com/user-attachments/assets/74ef87ed-2d30-49b3-8ba1-9fe869cce487)
 ### 3. Arduino-cm1106 connection
 ![스크린샷 2025-01-05 235814](https://github.com/user-attachments/assets/df1ce120-caa3-4e01-b64a-8f89d7f33d0d)
+### 4. Arduino-dust sensor connection
+![image](https://github.com/user-attachments/assets/cde6fb73-8839-435e-b36a-4925e2417f8f)
 
 ## Install Arduino
 
