@@ -25,7 +25,7 @@ newgrp dialout
 
 arduino (→ Practice)
 
-## CO2 SENSOR execute code 
+## CO2 Sensor execute code 
 ```
 #include <SoftwareSerial.h>
  
