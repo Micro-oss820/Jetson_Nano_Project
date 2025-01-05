@@ -10,7 +10,7 @@
 ## Install Arduino
 
 ### 1. Download version 1.8.19 from the Home Page : https://www.arduino.cc/en/software
-
+* Caution : You can't run dust sensor unless you download version 1.18.19
 ### 2. Unzip Arduino files : 
 
 cd Downloads
