@@ -31,7 +31,6 @@ arduino (→ Practice)
 
 ## How to execute Arduino code
 
-### Caution : If you do not install this library, the cm1106 sensor will not run
 
 ### 1. Enter the code below 
 
@@ -40,6 +39,8 @@ arduino (→ Practice)
 ### 3. Press the button ![image](https://github.com/user-attachments/assets/e8a8095e-f878-45d6-8650-89d3edad0856)
 
 ## Installing the library for running CO2 SENSON(CM1106)
+
+### Caution : If you do not install this library, the cm1106 sensor will not run
 
 ### 1. Press the SKETCH
 
